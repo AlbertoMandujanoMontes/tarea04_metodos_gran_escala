@@ -3,7 +3,7 @@
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OrdinalEncoder
 import pandas as pd
-
+import logging
 
 
 def fill_all_missing_values(data):
@@ -57,6 +57,8 @@ def load_process_data(load_from_file, overwrite_file):
     if load_from_file:
         train_data = pd.read_feather('data/clean/train_clean.feather')
         test_data = pd.read_feather('data/clean/test_clean.feather')
+        logging.info("Importing data sets from file")
+
     else:
         train_data = pd.read_csv("data/raw/train.csv")
         test_data = pd.read_csv("data/raw//test.csv")
@@ -178,9 +180,11 @@ def load_process_data(load_from_file, overwrite_file):
 
         train_data.drop(drop_col, axis=1, inplace=True)
         test_data.drop(drop_col, axis=1, inplace=True)
+        logging.info("Reading raw data sets")
 
         if overwrite_file:
             train_data.to_feather('data/clean/train_clean.feather')
             test_data.to_feather('data/clean/test_clean.feather')
+            logging.info("Overwriting clean data sets")
 
     return train_data, test_data
